@@ -3,9 +3,10 @@ package mate.academy.util;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class HashUtil {
-     public static String HashPassword(String passwordToHash, byte[] salt) {
+     public static String hashPassword(String passwordToHash, byte[] salt) {
         String generatedPassword = null;
 
         try {
@@ -23,5 +24,12 @@ public class HashUtil {
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("Could not find SHA-512 algorithm", e);
         }
+    }
+
+    public static byte[] getSalt() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] salt = new byte[16];
+        secureRandom.nextBytes(salt);
+        return salt;
     }
 }

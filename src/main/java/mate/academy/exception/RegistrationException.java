@@ -1,7 +1,7 @@
 package mate.academy.exception;
 
 public class RegistrationException extends RuntimeException {
-    public RegistrationException(String message, Exception exception) {
-        super(message, exception);
+    public RegistrationException(String message) {
+        super(message);
     }
 }
