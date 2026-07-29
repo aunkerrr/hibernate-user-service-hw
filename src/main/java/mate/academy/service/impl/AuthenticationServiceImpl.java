@@ -19,16 +19,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User login(String email, String password) throws AuthenticationException {
         Optional<User> userFromDb = userService.findByEmail(email);
 
-        if (userFromDb.isEmpty()) {
+        if (userFromDb.isEmpty() || !userFromDb
+                .get()
+                .getPassword()
+                .equals(HashUtil
+                        .hashPassword(password, userFromDb
+                        .get()
+                        .getSalt()))) {
             throw new AuthenticationException("Incorrect email or password");
-        }
-
-        User user = userFromDb.get();
-
-        String hashedPassword = HashUtil.hashPassword(password, user.getSalt());
-
-        if (user.getPassword().equals(hashedPassword)) {
-            return user;
         }
 
         throw new AuthenticationException("Incorrect email or password");
@@ -42,13 +40,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     + email + " is already present.");
         }
 
-        byte[] salt = HashUtil.getSalt();
-        String hashedPassword = HashUtil.hashPassword(password, salt);
-
         User user = new User();
         user.setEmail(email);
-        user.setPassword(hashedPassword);
-        user.setSalt(salt);
+        user.setPassword(password);
 
         return userService.add(user);
     }

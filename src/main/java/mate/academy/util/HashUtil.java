@@ -6,6 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashUtil {
+    private HashUtil() {
+    }
+
     public static String hashPassword(String passwordToHash, byte[] salt) {
         String generatedPassword = null;
 
