@@ -29,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AuthenticationException("Incorrect email or password");
         }
 
-        throw new AuthenticationException("Incorrect email or password");
+        return userFromDb.get();
     }
 
     @Override
